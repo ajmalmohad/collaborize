@@ -30,11 +30,7 @@ db.sync({force: true})
  * Utilities
  */
 function createAccessToken(user){
-    return jwt.sign(parseUser(user), process.env.ACCESS_TOKEN_SECRET, {expiresIn: '5m'});
-}
-
-function createRefreshToken(user){
-    return jwt.sign(parseUser(user), process.env.REFRESH_TOKEN_SECRET, {expiresIn: '7d'});
+    return jwt.sign(parseUser(user), process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1d'});
 }
 
 function parseUser(user){
@@ -61,36 +57,6 @@ function populateUser(user){
     return populated;
 }
 
-function createNewSession(refreshToken, userId){
-    let session = {
-        refreshToken: refreshToken,
-        ownerId: userId
-    }
-    Session.findAll({ where: { ownerId: userId }, order:  [ ['updatedAt',  'ASC'] ] })
-        .then(data => {
-            if(data.length < 3){
-                Session.create(session)
-                    .then(data => {
-                        console.log("New Session Created!");
-                    })
-                    .catch(err => {
-                        console.log("Unexpected Error on Creating Session");
-                    })
-            }else{
-                let allSessions = data.map(item => item.dataValues);
-                Session.update({ refreshToken: refreshToken }, {
-                    where: { id: allSessions[0].id }
-                }).then(data => {
-                    console.log("Old Session Updated to New Session!");
-                })
-            }
-        })
-        .catch(err => {
-            console.log("Unexpected Error on Loading Session");
-        })
-}
-
-
 /**
  * Authentication Routes
  */
@@ -113,10 +79,8 @@ router.post('/signup',(req,res)=>{
                     .then(data=>{
                         let userData = data.dataValues;
                         let accessToken = createAccessToken(userData);
-                        let refreshToken = createRefreshToken(userData);
-                        createNewSession(encrypt(refreshToken), userData.userId);
                         let deSensitized = deSensitize(userData);
-                        return res.status(200).json({ deSensitized, accessToken, refreshToken});
+                        return res.status(200).json({ ...deSensitized, accessToken });
                     })
                     .catch(err => {
                         return res.status(500).json({message:"Unexpected Error on User Creation"});
@@ -142,10 +106,8 @@ router.post('/login',(req,res)=>{
             bcrypt.compare(user.password, userData.password).then(function(isMatch) {
                 if(!isMatch) return res.status(403).json({message:"Password Not Verified"});
                 let accessToken = createAccessToken(userData);
-                let refreshToken = createRefreshToken(userData);
-                createNewSession(encrypt(refreshToken), userData.userId);
                 let deSensitized = deSensitize(userData);
-                return res.status(200).json({ deSensitized, accessToken, refreshToken});
+                return res.status(200).json({ ...deSensitized, accessToken });
             }).catch(err => {
                 return res.status(500).json({message:"Unexpected Error on Decryption"});
             })
@@ -153,25 +115,6 @@ router.post('/login',(req,res)=>{
         .catch(err => {
             return res.status(500).json({message:"Unexpected Error on Reading from Database"});
         })
-})
-
-router.post("/renewAccess", (req, res)=>{
-    const refreshToken = req.body.token;
-    if(!refreshToken) return res.status(404).json({message:"Refresh Token Not Provided"});
-    
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err,userData)=>{
-        if(err) return res.status(403).json({message:"Unverified Refresh Token"});
-        Session.findAll({ where: { ownerId: userData.userId } })
-        .then(data => {
-            let allSessions = data.map(item => decrypt(item.dataValues.refreshToken));
-            if(!allSessions.includes(refreshToken)) return res.status(403).json({message:"Invalid Refresh Token"});
-            const accessToken = createAccessToken(userData);
-            return res.status(200).json({ accessToken });
-        })
-        .catch(err => {
-            console.log("Unexpected Error on Loading Session");
-        })
-    });
 })
 
 
