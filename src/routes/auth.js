@@ -3,19 +3,14 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require('../models/User');
-const Session = require('../models/Session');
 const bcrypt = require('bcrypt');
 const crypto = require("crypto");
 const { Sequelize } = require('sequelize');
-const { encrypt, decrypt } = require('./../encrypt/encrypt');
 
 /**
  * Database
  */
 const db = require('../database/database.js');
-
-User.hasMany(Session, { foreignKey: 'ownerId' });
-Session.belongsTo(User, { foreignKey: 'ownerId' });
 
 db.sync({force: true})
     .then((result)=>{
