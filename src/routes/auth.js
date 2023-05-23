@@ -38,15 +38,13 @@ function createRefreshToken(user){
 }
 
 function parseUser(user){
-    return { userId:user.userId, userName: user.userName };
+    return { userId:user.userId };
 }
 
 function deSensitize(user){
     return {
         userId: user.userId,
-        userName: user.userName,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        name: user.name,
         email: user.email,
         emailVerified: user.emailVerified
     }
@@ -55,9 +53,7 @@ function deSensitize(user){
 function populateUser(user){
     let populated = {
         userId: crypto.randomBytes(16).toString("hex"),
-        userName: user.userName,
-        firstName: user.firstName,
-        lastName: user.lastName ? user.lastName : null,
+        name: user.name,
         email: user.email,
         password: user.password,
         emailVerified: false,
@@ -106,7 +102,7 @@ router.post('/signup',(req,res)=>{
     const {user} = req.body;
     if(!user) return res.status(404).json({message:"User Information Not Provided"});
 
-    User.count({ where:  Sequelize.or({ email: user.email },{ userName: user.userName }) })
+    User.count({ where:  Sequelize.or({ email: user.email }) })
         .then(count => {
             if (count != 0) return res.status(409).json({message:"User Already Exists"});
             

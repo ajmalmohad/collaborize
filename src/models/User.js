@@ -8,11 +8,6 @@ const User = db.define("user", {
     allowNull: false,
     primaryKey: true
   },
-  userName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
-  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -22,13 +17,9 @@ const User = db.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  firstName: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  lastName: {
-    type: DataTypes.STRING,
-    allowNull: true,
   },
   emailVerified: {
     type: DataTypes.BOOLEAN,
