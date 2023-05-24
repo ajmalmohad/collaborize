@@ -41,6 +41,32 @@ function deSensitize(user){
     }
 }
 
+function completeUser(user, context){
+    if(context=="login"){
+        if(
+            user.hasOwnProperty("email") &&
+            user.hasOwnProperty("password") &&
+            user.email !== "" &&
+            user.password !== ""
+        ){
+            return true;
+        }
+    }else if(context=="signup"){
+        if(
+            user.hasOwnProperty("email") &&
+            user.hasOwnProperty("name") &&
+            user.hasOwnProperty("password") &&
+            user.email !== "" &&
+            user.name !== "" &&
+            user.password !== ""
+        ){
+            return true;
+        }
+    }
+
+    return false;
+}
+
 function populateUser(user){
     let populated = {
         userId: crypto.randomBytes(16).toString("hex"),
@@ -61,12 +87,12 @@ function populateUser(user){
 
 router.post('/signup',(req,res)=>{
     const {user} = req.body;
-    if(!user) return res.status(404).json({message:"User Information Not Provided"});
+    if(!user || !completeUser(user, "signup")) return res.status(404).json({message:"User Information Not Provided"});
 
     User.count({ where:  Sequelize.or({ email: user.email }) })
         .then(count => {
             if (count != 0) return res.status(409).json({message:"User Already Exists"});
-            
+
             bcrypt.hash(user.password, 8).then(function(hash) {
                 user.password = hash;
                 let fullUser = populateUser(user);
@@ -92,7 +118,7 @@ router.post('/signup',(req,res)=>{
 
 router.post('/login',(req,res)=>{
     const {user} = req.body;
-    if(!user) return res.status(404).json({message:"User Information Not Provided"});
+    if(!user || !completeUser(user, "login")) return res.status(404).json({message:"User Information Not Provided"});
 
     User.findOne({ where: { email: user.email } })
         .then(data => {
