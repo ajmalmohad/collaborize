@@ -81,7 +81,7 @@ function populateUser(user){
 /**
  * Authentication Routes
  */
- router.get('/',(req,res)=>{
+router.get('/',(req,res)=>{
     return res.status(200).json({message:"Authentication Route"});
 })
 

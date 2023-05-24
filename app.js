@@ -12,6 +12,7 @@ app.use(cors())
  */
 app.get('/',(req, res)=>{ return res.status(200).json({message:"Works!"}); })
 app.use('/auth', require('./src/routes/auth.js'));
+app.use('/chat', require('./src/routes/chat.js'));
 app.listen(5000);
 
 
