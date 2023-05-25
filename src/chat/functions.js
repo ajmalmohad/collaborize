@@ -1,52 +1,56 @@
 
-const userJoined = (room, username, author, socket) => {
+const userJoined = (roomId, name, email, author, socket) => {
     let __createdtime__ = Date.now();
-    socket.to(room).emit('receive_message', {
-        message: `${username} has joined the room`,
-        username: author,
+    socket.to(roomId).emit('receive_message', {
+        message: `${name} has joined the room`,
+        name: author,
+        email: email,
         __createdtime__,
     });
 }
 
 
-const welcomeUser = (username, author, socket) => {
+const welcomeUser = (name, email, author, socket) => {
     let __createdtime__ = Date.now();
     socket.emit('receive_message', {
-        message: `Welcome ${username}`,
-        username: author,
+        message: `Welcome ${name}`,
+        name: author,
+        email: email,
         __createdtime__,
     });
 }
 
-const sendCurrentRoomUsers = (room, currentRoomUsers, socket, me) => {
-    socket.to(room).emit('chatroom_users', currentRoomUsers);
+const sendCurrentRoomUsers = (roomId, currentRoomUsers, socket, me) => {
+    socket.to(roomId).emit('chatroom_users', currentRoomUsers);
     if(me) socket.emit('chatroom_users', currentRoomUsers);
 }
 
-const findCurrentRoomUsers = (allUsers, room) => {
-    return allUsers.filter((user) => user.room === room);
+const findCurrentRoomUsers = (allUsers, roomId) => {
+    return allUsers.filter((user) => user.roomId === roomId);
 }
 
 const userSendMessage = (socket, io) => {
     socket.on('send_message', (data) => {
-        io.in(data.room).emit('receive_message', data); 
+        io.in(data.roomId).emit('receive_message', data); 
     });
 }
 
-const sendOffUser = (room, username, author, socket) =>  {
+const sendOffUser = (roomId, name, email, author, socket) =>  {
     let __createdtime__ = Date.now();
-    socket.to(room).emit('receive_message', {
-        username: author,
-        message: `${username} has left the chat`,
+    socket.to(roomId).emit('receive_message', {
+        name: author,
+        email: email,
+        message: `${name} has left the chat`,
         __createdtime__,
     });
 }
 
-const userDisconnected = (room, username, author, socket) =>  {
+const userDisconnected = (roomId, name, email, author, socket) =>  {
     let __createdtime__ = Date.now();
-    socket.to(room).emit('receive_message', {
-        username: author,
-        message: `${username} has disconnected from the chat.`,
+    socket.to(roomId).emit('receive_message', {
+        name: author,
+        email: email,
+        message: `${name} has disconnected from the chat.`,
         __createdtime__,
     });
 }
