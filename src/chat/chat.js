@@ -1,4 +1,4 @@
-const { userJoined, welcomeUser, userSendMessage, sendOffUser } = require('./functions')
+const { userJoined, welcomeUser, userSendMessage, sendOffUser, userSendDrawing } = require('./functions')
 const { sendCurrentRoomUsers, findCurrentRoomUsers, userDisconnected } = require('./functions')
 
 module.exports = function(io) {
@@ -29,6 +29,8 @@ module.exports = function(io) {
 
 
         userSendMessage(socket, io);
+
+        userSendDrawing(socket);
 
         socket.on('leave_room', (data) => {
             const { name, email, roomId } = data;

@@ -60,7 +60,11 @@ const userDisconnected = (roomId, name, email, author, socket) =>  {
     });
 }
 
+const userSendDrawing = (socket) => {
+    socket.on('drawing', (data) => socket.broadcast.emit('drawing', data));
+}
+
 module.exports = { 
     userJoined, welcomeUser, sendCurrentRoomUsers, userDisconnected,
-    findCurrentRoomUsers, userSendMessage, sendOffUser
+    findCurrentRoomUsers, userSendMessage, sendOffUser, userSendDrawing
 }
