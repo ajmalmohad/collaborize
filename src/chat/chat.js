@@ -3,13 +3,14 @@ const { sendCurrentRoomUsers, findCurrentRoomUsers, userDisconnected } = require
 
 module.exports = function(io) {
 
-    let currentRoom = '';
+    
     let allUsers = [];
     let CHAT_BOT = "The Author";
     let CHAT_EMAIL = "admin@collaborizer.com";
 
     io.on('connection', (socket) => {
         console.log(`User connected ${socket.id}`);
+        let currentRoom = '';
         socket.on('join_room', (data) => {
             const { name, email, roomId } = data; 
             if (allUsers.filter(item => (item.id === socket.id && item.roomId===roomId)).length === 0) {
