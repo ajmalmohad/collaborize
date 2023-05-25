@@ -26,7 +26,12 @@ const sendCurrentRoomUsers = (roomId, currentRoomUsers, socket, me) => {
 }
 
 const findCurrentRoomUsers = (allUsers, roomId) => {
-    return allUsers.filter((user) => user.roomId === roomId);
+    let emails = {}
+    return allUsers.filter((user) => {
+        if(emails[user.email]) return false;
+        emails[user.email] = true;
+        return user.roomId === roomId;
+    });
 }
 
 const userSendMessage = (socket, io) => {
