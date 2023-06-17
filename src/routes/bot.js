@@ -19,7 +19,7 @@ router.post('/ask', async (req,res)=>{
     fetch(`http://api.brainshop.ai/get?bid=176088&key=${process.env.BOT_API_KEY}&uid=${email}&msg=${encodeURI(prompt)}`)
     .then(async (data)  => {
         answer = await data.json()
-        return res.status(200).json({ ...answer });
+        return res.status(200).json({ message: answer.cnt?answer.cnt:"Can you repeat?" });
     })
     .catch(err=>{
         return res.status(500).json({message:"Unexpected Error Occured"});
