@@ -5,7 +5,7 @@ module.exports = function(io) {
 
     
     let allUsers = [];
-    let CHAT_BOT = "The Author";
+    let CHAT_BOT = "Chat Bot";
     let CHAT_EMAIL = "admin@collaborizer.com";
 
     io.on('connection', (socket) => {
