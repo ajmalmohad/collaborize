@@ -12,13 +12,21 @@ const { Sequelize } = require('sequelize');
  */
 const db = require('../database/database.js');
 
-db.sync({force: true})
-    .then((result)=>{
-        console.log("Tables Created!");
-    })
-    .catch((error)=>{
-        console.log("Error: ",error);
-    })
+// db.sync({force: true})
+//     .then((result)=>{
+//         console.log("Tables Created!");
+//     })
+//     .catch((error)=>{
+//         console.log("Error: ",error);
+//     })
+
+db.sync()
+.then((result)=>{
+    console.log("Tables Created!");
+})
+.catch((error)=>{
+    console.log("Error: ",error);
+})
 
 
 /**
