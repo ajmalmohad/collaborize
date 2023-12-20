@@ -1,1 +1,1 @@
-export const endpoint = 'https://collaborize-backend-production.up.railway.app'
+export const endpoint = 'http://localhost:5000'
