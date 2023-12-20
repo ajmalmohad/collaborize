@@ -1,0 +1,57 @@
+.Sidebar{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background: rgba( 19, 19, 19, 0.6 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 12px );
+    -webkit-backdrop-filter: blur( 12px );
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.Sidebar .icons{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 26px;
+    padding-top: 20px;
+}
+
+.Sidebar .icons > *{
+    transition: 0.2s all;
+}
+
+.Sidebar .icons > *{
+    margin: 20px 0px;
+    cursor: pointer;
+}
+
+.Sidebar .icons a{
+    text-decoration: none;
+    color: var(--very-whiter-gray);
+}
+
+.Sidebar .icons a:hover{
+    color: var(--white);
+}
+
+.Sidebar .icons .selected{
+    color: var(--white);
+}
+
+@media screen and (max-width:600px){
+    .Sidebar .icons{
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        font-size: 20px;
+        padding-top: 0px;
+    }
+
+    .Sidebar .icons > *{
+        margin: 0px;
+    }
+}

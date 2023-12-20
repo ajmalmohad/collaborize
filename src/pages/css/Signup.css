@@ -1,0 +1,72 @@
+.Signup{
+    position: relative;
+    min-height: 100vh;
+    background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
+}
+
+.Signup .content{
+    position: relative;
+    z-index: 1;
+}
+
+.Signup .content .form{
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: max(5%, 50px);
+}
+
+.Signup .content .form >*{
+    margin: 10px 0px;
+}
+
+.Signup .content .form > .TextField{
+    margin-bottom: 10px;
+}
+
+.Signup .content .form > .SubmitButton{
+    margin-top: 20px;
+}
+
+.Signup .content .form h1{
+    font-size: 45px;
+    font-weight: 500;
+    line-height: 120%;
+}
+
+.Signup .content .form .redirect{
+    display: flex;
+    align-items: center;
+}
+
+.Signup .content .form .redirect .label{
+    margin-right: 6px;
+    color: var(--off-gray);
+}
+
+.Signup .content .form h1 .dot{
+    color: var(--accent-blue);
+}
+
+.Signup .content .form .TextField,
+.Signup .content .form .SubmitButton{
+    width: min(500px, 100%);
+}
+
+@media screen and (max-width:900px) {
+    .Signup .content .form h1{
+        font-size: 40px;
+    }
+}
+
+@media screen and (max-width:600px) {
+    .Signup .content .form h1 .continue{
+        display: none;
+    }
+
+    .Signup .content .form{
+        padding: max(5%, 30px);
+    }
+}

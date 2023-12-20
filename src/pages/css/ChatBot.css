@@ -1,0 +1,32 @@
+.ChatBot{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(109.6deg, rgb(0, 0, 0) 11.2%, rgb(11, 132, 145) 91.1%);
+    background-size: cover;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.ChatBot .chats{
+    width: 100%;
+    height: calc(100% - 60px);
+    padding: 20px;
+    overflow-y: scroll;
+}
+
+.ChatBot .chats .chat{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.ChatBot .chats .myside{
+    justify-content: flex-end;
+}
+
+.ChatBot .sender{
+    width: 100%;
+    height: 60px;
+}
