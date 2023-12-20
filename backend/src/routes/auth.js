@@ -4,7 +4,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const crypto = require("crypto");
+const crypto = require('crypto') ;
 const { Sequelize } = require('sequelize');
 
 /**
