@@ -10,7 +10,10 @@
     "lintfix": "pnpm -r lintfix",
     "prettify": "pnpm exec prettier . --write",
     "pre-commit": "pnpm run lint",
-    "test": "pnpm -r test"
+    "test": "pnpm -r test",
+    "start:backend": "pnpm --filter @collaborize/backend dev",
+    "start:frontend": "pnpm --filter @collaborize/frontend start",
+    "start": "pnpm run start:backend & pnpm run start:frontend"
   },
   "workspaces": [
     "./packages/*"
