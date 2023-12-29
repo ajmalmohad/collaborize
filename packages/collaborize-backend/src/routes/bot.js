@@ -1,7 +1,8 @@
-require("dotenv").config({path: './../../.env'});
+require("dotenv").config({ path: "./../../.env" });
 const express = require("express");
 const router = express.Router();
-const fetch = require("node-fetch");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 /**
  * Chat Bot Routes
  */
