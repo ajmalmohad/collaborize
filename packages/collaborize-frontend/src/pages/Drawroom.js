@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './css/Drawroom.css';
-import { useAppContext } from '../contexts/AuthContext';
-import { useNavigate, useParams } from 'react-router-dom';
-import { IoMdExit } from 'react-icons/io';
-import { AiOutlineBgColors } from 'react-icons/ai';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { FiMaximize2, FiMinimize2 } from 'react-icons/fi';
-import { TwitterPicker } from 'react-color';
+import React, { useEffect, useRef, useState } from "react";
+import "./css/Drawroom.css";
+import { useAppContext } from "../contexts/AuthContext";
+import { useNavigate, useParams } from "react-router-dom";
+import { IoMdExit } from "react-icons/io";
+import { AiOutlineBgColors } from "react-icons/ai";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { FiMaximize2, FiMinimize2 } from "react-icons/fi";
+import { TwitterPicker } from "react-color";
 
 function Drawroom() {
   const canvasRef = useRef(null);
@@ -22,7 +22,7 @@ function Drawroom() {
   let [toolopen, setToolOpen] = useState(true);
   let [scaleopen, setScaleOpen] = useState(false);
   const myColor = useRef(color);
-  const setColor = data => {
+  const setColor = (data) => {
     myColor.current = data;
     _setColor(data);
   };
@@ -32,18 +32,18 @@ function Drawroom() {
     let email = user.email;
 
     const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext("2d");
     context.fillStyle = "#ffffff";
     context.fillRect(0, 0, canvas.width, canvas.height);
     let drawing = false;
     let scale = 1;
     let scaled = false;
-    let current=  {};
+    let current = {};
 
     const drawLine = (x0, y0, x1, y1, color, emit) => {
       context.beginPath();
-      context.moveTo(x0/scale, y0/scale);
-      context.lineTo(x1/scale, y1/scale);
+      context.moveTo(x0 / scale, y0 / scale);
+      context.lineTo(x1 / scale, y1 / scale);
       context.strokeStyle = color;
       context.lineWidth = 2;
       context.stroke();
@@ -55,11 +55,11 @@ function Drawroom() {
       const w = canvas.width;
       const h = canvas.height;
 
-      socket.emit('drawing', {
-        x0: x0/scale / w,
-        y0: y0/scale / h,
-        x1: x1/scale / w,
-        y1: y1/scale / h,
+      socket.emit("drawing", {
+        x0: x0 / scale / w,
+        y0: y0 / scale / h,
+        x1: x1 / scale / w,
+        y1: y1 / scale / h,
         color,
       });
     };
@@ -82,7 +82,7 @@ function Drawroom() {
         e.clientX - bounds.left || e.touches[0].clientX - bounds.left,
         e.clientY - bounds.top || e.touches[0].clientY - bounds.top,
         myColor.current,
-        true
+        true,
       );
       current.x = e.clientX - bounds.left || e.touches[0].clientX - bounds.left;
       current.y = e.clientY - bounds.top || e.touches[0].clientY - bounds.top;
@@ -101,7 +101,7 @@ function Drawroom() {
           e.clientX - bounds.left || e.touches[0].clientX - bounds.left,
           e.clientY - bounds.top || e.touches[0].clientY - bounds.top,
           myColor.current,
-          true
+          true,
         );
     };
 
@@ -119,86 +119,127 @@ function Drawroom() {
 
     const onResize = () => {
       if (canvas) {
-        scale = canvas.getBoundingClientRect().width/canvasWidth;
+        scale = canvas.getBoundingClientRect().width / canvasWidth;
       }
     };
 
-    window.addEventListener('resize', onResize, false);
+    window.addEventListener("resize", onResize, false);
     onResize();
 
     const onDrawingEvent = (data) => {
       const w = canvas.width;
       const h = canvas.height;
-      drawLine(data.x0*scale * w, data.y0*scale * h, data.x1*scale * w, data.y1*scale * h, data.color);
+      drawLine(
+        data.x0 * scale * w,
+        data.y0 * scale * h,
+        data.x1 * scale * w,
+        data.y1 * scale * h,
+        data.color,
+      );
     };
 
     const onScale = () => {
-      if(scaled){;
+      if (scaled) {
         roomRef.current.style.display = "flex";
         parentRef.current.style.width = "100%";
-        scale = canvas.getBoundingClientRect().width/canvasWidth;
+        scale = canvas.getBoundingClientRect().width / canvasWidth;
         scaled = !scaled;
-      }else{
+      } else {
         roomRef.current.style.display = "block";
-        parentRef.current.style.width = `${100*2}%`;
-        scale = canvas.getBoundingClientRect().width/canvasWidth;
+        parentRef.current.style.width = `${100 * 2}%`;
+        scale = canvas.getBoundingClientRect().width / canvasWidth;
         scaled = !scaled;
       }
-    }
+    };
 
-    if (canvas && scaleRef.current && roomId !== '' && user.name !== '') {
-      socket.emit('join_room', { name, email, roomId });
-      
-      canvas.addEventListener('mousedown', onMouseDown, false);
-      canvas.addEventListener('mouseup', onMouseUp, false);
-      canvas.addEventListener('mouseout', onMouseUp, false);
-      canvas.addEventListener('mousemove', throttle(onMouseMove, 10), false);
+    if (canvas && scaleRef.current && roomId !== "" && user.name !== "") {
+      socket.emit("join_room", { name, email, roomId });
 
-      canvas.addEventListener('touchstart', onMouseDown, false);
-      canvas.addEventListener('touchend', onMouseUp, false);
-      canvas.addEventListener('touchcancel', onMouseUp, false);
-      canvas.addEventListener('touchmove', throttle(onMouseMove, 10), false);
+      canvas.addEventListener("mousedown", onMouseDown, false);
+      canvas.addEventListener("mouseup", onMouseUp, false);
+      canvas.addEventListener("mouseout", onMouseUp, false);
+      canvas.addEventListener("mousemove", throttle(onMouseMove, 10), false);
 
-      scaleRef.current.addEventListener('click', onScale, false);
+      canvas.addEventListener("touchstart", onMouseDown, false);
+      canvas.addEventListener("touchend", onMouseUp, false);
+      canvas.addEventListener("touchcancel", onMouseUp, false);
+      canvas.addEventListener("touchmove", throttle(onMouseMove, 10), false);
 
-      socket.on('drawing', onDrawingEvent);
+      scaleRef.current.addEventListener("click", onScale, false);
+
+      socket.on("drawing", onDrawingEvent);
     }
 
     return () => {
       const __createdtime__ = Date.now();
-      socket.off('receive_message');
-      socket.off('Drawroom_users');
-      socket.emit('leave_room', { name, email, roomId, __createdtime__ });
+      socket.off("receive_message");
+      socket.off("Drawroom_users");
+      socket.emit("leave_room", { name, email, roomId, __createdtime__ });
     };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket, user, roomId]);
 
   const leaveRoom = () => {
     const name = user.name;
     const email = user.email;
     const __createdtime__ = Date.now();
-    socket.emit('leave_room', { name, email, roomId, __createdtime__ });
-    navigate('/draw', { replace: true });
+    socket.emit("leave_room", { name, email, roomId, __createdtime__ });
+    navigate("/draw", { replace: true });
   };
 
   return (
-      <div className="Drawroom" ref={roomRef}>
-        <div className='tool-hamburger' onClick={()=>{setToolOpen(prev => !prev)}}>
-          <GiHamburgerMenu />
+    <div className="Drawroom" ref={roomRef}>
+      <div
+        className="tool-hamburger"
+        onClick={() => {
+          setToolOpen((prev) => !prev);
+        }}
+      >
+        <GiHamburgerMenu />
+      </div>
+      <div className="tooler" style={{ right: toolopen ? "30px" : "-100px" }}>
+        <div
+          className="tool scale"
+          ref={scaleRef}
+          onClick={() => {
+            setScaleOpen((prev) => !prev);
+          }}
+        >
+          {scaleopen ? <FiMinimize2 /> : <FiMaximize2 />}
         </div>
-        <div className='tooler' style={{ right: toolopen ? "30px" : "-100px" }}>
-            <div className='tool scale' ref={scaleRef} onClick={()=>{setScaleOpen(prev => !prev)}}>{scaleopen ? <FiMinimize2 /> : <FiMaximize2 />}</div>
-            <div className='tool leave' onClick={leaveRoom}><IoMdExit /></div>
-            <div className='tool'>
-              <AiOutlineBgColors onClick={()=>{setColorOpen(prev => !prev)}} />
-              { coloropen ? <TwitterPicker className='popup' color={ color } onChangeComplete={ (color)=>{setColor(color.hex); setColorOpen(prev => !prev)} } /> : ""}
-            </div>
+        <div className="tool leave" onClick={leaveRoom}>
+          <IoMdExit />
         </div>
-        <div className='canvascontainer' ref={parentRef}>
-          <canvas ref={canvasRef} height={1080} width={1920} className="whiteboard" />
+        <div className="tool">
+          <AiOutlineBgColors
+            onClick={() => {
+              setColorOpen((prev) => !prev);
+            }}
+          />
+          {coloropen ? (
+            <TwitterPicker
+              className="popup"
+              color={color}
+              onChangeComplete={(color) => {
+                setColor(color.hex);
+                setColorOpen((prev) => !prev);
+              }}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </div>
+      <div className="canvascontainer" ref={parentRef}>
+        <canvas
+          ref={canvasRef}
+          height={1080}
+          width={1920}
+          className="whiteboard"
+        />
+      </div>
+    </div>
   );
 }
 
