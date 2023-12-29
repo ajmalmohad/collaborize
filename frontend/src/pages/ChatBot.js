@@ -54,7 +54,7 @@ function ChatBot() {
                     setMessagesReceived((state) => [
                         ...state.slice(0, -1),
                         {
-                          message: "Can you repeat?",
+                          message: "Sorry couldn't access the bot right now.",
                           email: "bot@collaborizer.com",
                           name: "Collaborizer Bot"
                         },
