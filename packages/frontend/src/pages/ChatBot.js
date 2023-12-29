@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react'
 import './css/ChatBot.css'
 import ChatField from '../components/ChatField'
-import { useAppContext } from './../contexts/AuthContext'
+import { useAppContext } from '../contexts/AuthContext'
 import { postData } from '../api/post'
 import FormattedMessage from '../components/FormattedMessage'
 

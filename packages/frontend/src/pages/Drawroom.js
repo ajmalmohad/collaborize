@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './css/Drawroom.css';
-import { useAppContext } from './../contexts/AuthContext';
+import { useAppContext } from '../contexts/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IoMdExit } from 'react-icons/io';
 import { AiOutlineBgColors } from 'react-icons/ai';

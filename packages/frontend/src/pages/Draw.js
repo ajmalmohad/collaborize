@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import './css/Chat.css'
-import TextField from './../components/TextField'
-import SubmitButton from './../components/SubmitButton'
+import './css/Draw.css'
+import TextField from '../components/TextField'
+import SubmitButton from '../components/SubmitButton'
 import { useNavigate } from 'react-router-dom';
 
-
-
-function Chat() {
+function Draw() {
 
   const navigate = useNavigate();
   const [room, setRoom] = useState("");
@@ -17,14 +15,14 @@ function Chat() {
   }
 
   const joinRoom = () => {
-    if(room!=="") navigate(`/chat/${room}`, { replace: true });
+    if(room!=="") navigate(`/draw/${room}`, { replace: true });
   };
   
   return (
-    <div className='Chat'>
+    <div className='Draw'>
       <div className='join'>
         <div className='fields'>
-          <TextField value={room} placeholder={"Enter Chat Room Code"} action={(e)=>handleChange(e,"room")} label={"Room Code"} />
+          <TextField value={room} placeholder={"Enter Drawing Room Code"} action={(e)=>handleChange(e,"room")} label={"Room Code"} />
           <SubmitButton value={"Join Room"} action={joinRoom} />
         </div>
       </div>
@@ -33,4 +31,4 @@ function Chat() {
 
 }
 
-export default Chat
+export default Draw

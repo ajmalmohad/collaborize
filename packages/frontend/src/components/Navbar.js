@@ -1,7 +1,7 @@
 import React from 'react'
 import './css/Navbar.css'
-import Logo from './../images/Logo.png'
-import { useAppContext } from './../contexts/AuthContext'
+import Logo from '../images/Logo.png'
+import { useAppContext } from '../contexts/AuthContext'
 
 function Navbar() {
 

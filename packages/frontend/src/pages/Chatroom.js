@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
 import './css/Chatroom.css'
-import { useAppContext } from './../contexts/AuthContext'
+import { useAppContext } from '../contexts/AuthContext'
 import { useNavigate, useParams } from 'react-router-dom'
 import ChatRoomBar from '../components/ChatRoomBar'
 import ChatField from '../components/ChatField'

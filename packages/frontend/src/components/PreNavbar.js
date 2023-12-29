@@ -1,6 +1,6 @@
 import React from 'react'
 import './css/PreNavbar.css'
-import Logo from './../images/Logo.png'
+import Logo from '../images/Logo.png'
 import { Link } from 'react-router-dom'
 
 function PreNavbar() {

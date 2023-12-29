@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import './css/Signup.css'
+import './css/Login.css'
 import PreNavbar from '../components/PreNavbar'
 import TextField from '../components/TextField'
 import { Link } from 'react-router-dom'
 import SubmitButton from '../components/SubmitButton'
 import { toast } from 'react-hot-toast'
-import { useAppContext } from './../contexts/AuthContext'
-import { postData } from './../api/post'
+import { useAppContext } from '../contexts/AuthContext'
+import { postData } from '../api/post'
 
-function Signup() {
+function Login() {
 
   const [disabled, setDisabled] = useState(false);
 
@@ -19,16 +19,15 @@ function Signup() {
       toast.dismiss();
     }
   }, [])
+  
 
   const [errors, setErrors] = useState({
     email: false,
-    name: false,
     password: false
   })
 
   const [fields, setFields] = useState({
     email: "",
-    name: "",
     password: ""
   })
 
@@ -36,7 +35,6 @@ function Signup() {
     let value = event.target.value;
     switch(label){
       case "email": setFields(prev => ({ ...prev, email: value })); break;
-      case "name": setFields(prev => ({ ...prev, name: value })); break;
       case "password": setFields(prev => ({ ...prev, password: value })); break;
       default: break;
     }
@@ -56,31 +54,26 @@ function Signup() {
         return true;
       }
 
-      if(fields.name === ""){ 
-        toast.error("Name shouldn't be empty.");
-        setErrors(prev => ({...prev, email: false, name: true }))
-        return true;
-      }
- 
       if(fields.password === ""){ 
         toast.error("Password shouldn't be empty.");
-        setErrors({email: false, name: false, password: true })
+        setErrors({email: false, password: true })
         return true;
       }else if(passwordRegex.test(fields.password)===false){
         toast.error("Password length should be atleast 8. ");
-        setErrors({email: false, name: false, password: true })
+        setErrors({email: false, password: true })
         return true;
       }
       
-      setErrors({email: false, name: false, password: false })
+      setErrors({email: false, password: false })
       return false;
   }
+
 
   const submitForm = () => {
     setDisabled(true);
     toast.dismiss();
     const toastId = toast.loading('Processing...');
-    postData("/auth/signup", { user: fields })
+    postData("/auth/login", { user: fields })
     .then((data)=>{
       if(!data.userId){
         if(data.message){
@@ -111,23 +104,23 @@ function Signup() {
     }
   }
 
+
   return (
-    <div className='Signup'>
+    <div className='Login'>
       <div className='content'>
         <PreNavbar />
         <div className='form'>
-            <h1>Create<span className='continue'> new account</span><span className='dot'>.</span></h1>
+            <h1>Login<span className='continue'> existing account</span><span className='dot'>.</span></h1>
             <div className='redirect'>
-              <p className='label'>Already a user?</p><Link to="/login"><p>Login</p></Link>
+              <p className='label'>First time?</p><Link to="/signup"><p>Sign Up</p></Link>
             </div>
             <TextField value={fields.email} action={(e)=>handleChange(e,"email")} error={errors.email} label={"Email"} type={"email"}/>
-            <TextField value={fields.name} action={(e)=>handleChange(e,"name")}  error={errors.name} label={"Name"} type={"text"}/>
             <TextField value={fields.password} action={(e)=>handleChange(e,"password")}  error={errors.password} label={"Password"} type={"password"}/>
-            <SubmitButton action={handleSubmit} value={"Create New Account"}/>
+            <SubmitButton action={handleSubmit} value={"Login"}/>
         </div>
       </div>
     </div>
   )
 }
 
-export default Signup
+export default Login
