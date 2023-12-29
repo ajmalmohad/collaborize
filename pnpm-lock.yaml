@@ -21,7 +21,7 @@ importers:
         specifier: 3.1.1
         version: 3.1.1
 
-  packages/backend:
+  packages/collaborize-backend:
     dependencies:
       bcrypt:
         specifier: ^5.0.1
@@ -55,7 +55,7 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2
 
-  packages/frontend:
+  packages/collaborize-frontend:
     dependencies:
       '@testing-library/jest-dom':
         specifier: ^5.16.5

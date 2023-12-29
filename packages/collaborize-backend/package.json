@@ -1,5 +1,5 @@
 {
-  "name": "collaborize-backend",
+  "name": "@collaborize/backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
